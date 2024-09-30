@@ -8,6 +8,7 @@ import { authMiddleware } from "./middleware";
 
 const app = express();
 const port = 8080;
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -15,9 +16,9 @@ app.get("/", (req, res) => {
 
 app.use(logMiddleware); // This will run on any request with the .use parameter
 
-const users = {
-  id: 1,
-  id: 2,
+export const TestCredentials = {
+  username: "testuser",
+  password: "testpassword",
 };
 
 // Quick and simple test, do curl localhost:8080/hello and it should work
@@ -25,9 +26,9 @@ app.get("/hello", (req, res) => {
   res.send("hello");
 });
 
-// Add authMiddleware as the second parameter to apply it only to this route
+// Note - we add authMiddleware as the second parameter to apply it only to this route
 app.post("/login", authMiddleware, (req, res, next) => {
-  const userCredentials = req.body; // For later
+  const postCredentials = req.body; // For later
   res.send({
     message: "Post req successful",
   });
@@ -36,5 +37,3 @@ app.post("/login", authMiddleware, (req, res, next) => {
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`);
 });
-
-console.log("Hello via Bun!");
