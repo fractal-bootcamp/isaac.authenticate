@@ -23,37 +23,21 @@ type JWTUserPayload = {
   userName: string;
 };
 
+// token Auth Middleware
+// tokenIdentificationMiddleware - that's what we're doing here
 export const authMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   console.log("This is the auth middleware!");
-  // console.log(res); // This will output a really long response - literally everything
   console.log(req.body);
-  // We need to modify the request, that's the big idea here
 
-  if (
-    req.body.username == TestCredentials.username &&
-    req.body.password == TestCredentials.password
-  ) {
-    console.log("Success!");
-
-    const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
-
-    const accessToken = jwt.sign(
-      { username: req.body.username },
-      accessTokenSecret,
-      { expiresIn: "1h" }
-    );
-
-    console.log(accessToken);
-
-    next();
-  } else {
-    console.log("Failure!");
-    res.status(401).json({ message: "Unauthorized" });
-  }
+  // Check if the provided credentials exist
+  // Check the provided bearer token if it exists
+  // decode it
+  // check to see if there is a matching user
+  // if there is, modify the request to include the user
 };
 
 /* NOTES BELOW */
